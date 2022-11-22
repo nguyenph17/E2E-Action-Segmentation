@@ -1,0 +1,15 @@
+# ignore all npy files
+*.npy
+
+# ignore output files
+model_ouputs/
+
+#ignore pretrain model weights
+pretrained/
+
+feature_extraction/outputs
+
+*.pyc
+*.avi
+*.mp4
+*.prm
