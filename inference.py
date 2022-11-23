@@ -30,8 +30,8 @@ def get_arguments() -> argparse.Namespace:
         "--cpu", action="store_true", help="Add --cpu option if you use cpu."
     )
 
-    parser.add_argument('--videopath', type=str, default="test_inference/")
-    parser.add_argument('--outputpath', type=str, default="test_inference/")
+    parser.add_argument('--videopath', type=str, default="test_inference")
+    parser.add_argument('--outputpath', type=str, default="test_inference")
     parser.add_argument('--pretrainedpath', type=str, default="feature_extraction/pretrained/i3d_r50_kinetics.pth")
     parser.add_argument('--frequency', type=int, default=1)
     parser.add_argument('--batch_size', type=int, default=16)
@@ -40,12 +40,12 @@ def get_arguments() -> argparse.Namespace:
     
     return args
 
-def inference_video(args, model, device, boundary_th, result_path):
+def inference_video(args, model, device, boundary_th, result_path, npy_file=None):
     postprocessor = PostProcessor("refinement_with_boundary", boundary_th)
     
-    feature = generate(args.videopath, str(args.outputpath), args.pretrainedpath, args.frequency, args.batch_size, args.sample_mode)[0]
-    feature = feature.reshape(-1, 2048).T
-    # feature = np.load('dataset/50salads/features/rgb-01-1.npy')
+    # feature = generate(args.videopath, str(args.outputpath), args.pretrainedpath, args.frequency, args.batch_size, args.sample_mode)[0]
+    # feature = feature.reshape(-1, 2048).T
+    feature = np.load(npy_file)
     feature = torch.from_numpy(feature).float()
     feature = feature[:, :: 2] # downsamp
     feature = feature.unsqueeze(0)
@@ -67,12 +67,12 @@ def inference_video(args, model, device, boundary_th, result_path):
         np.save(result_path + 'pred.npy', pred[0])
         np.save(result_path + '_refined_pred.npy', refined_pred[0])
 
-def main():
+def main(npy_file):
     args = get_arguments()
     config = get_config(args.config)
 
     result_path = './test_inference/'
-
+    # npy_file = 'test_inference/rgb-01-1.npy'
     # cpu or gpu
     if args.cpu:
         device = "cpu"
@@ -96,7 +96,7 @@ def main():
     state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"))
     model.load_state_dict(state_dict_cls)
     start_time = time.time()
-    inference_video(args, model, device, config.boundary_th, result_path)
+    inference_video(args, model, device, config.boundary_th, result_path, npy_file=npy_file)
     print("Done in {0}.".format(time.time() - start_time))
 
 if __name__ == '__main__':
