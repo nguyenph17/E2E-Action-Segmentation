@@ -3,9 +3,7 @@ import numpy as np
 import os
 import math
 import datetime
-import visualization.metrics as metrics
-
-
+from visualization import metrics
 
 class PlotSegments():
 
