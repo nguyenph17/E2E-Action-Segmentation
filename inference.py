@@ -24,15 +24,15 @@ def get_arguments() -> argparse.Namespace:
         "--config",
         type=str,
         help="path to a config file about the experiment on action segmentation",
-        default='./result/50salads/dataset-50salads_split-1/config.yaml'
+        default='./config/config.yaml'
     )
     parser.add_argument(
         "--cpu", action="store_true", help="Add --cpu option if you use cpu."
     )
 
-    parser.add_argument('--videopath', type=str, default="/mnt/f/ActionSegment/e2e_action_segmentation/test_result_inference/")
-    parser.add_argument('--outputpath', type=str, default="/mnt/f/ActionSegment/e2e_action_segmentation/test_result_inference/")
-    parser.add_argument('--pretrainedpath', type=str, default="pretrained/i3d_r50_kinetics.pth")
+    parser.add_argument('--videopath', type=str, default="test_inference/")
+    parser.add_argument('--outputpath', type=str, default="test_inference/")
+    parser.add_argument('--pretrainedpath', type=str, default="feature_extraction/pretrained/i3d_r50_kinetics.pth")
     parser.add_argument('--frequency', type=int, default=1)
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--sample_mode', type=str, default="center_crop")
@@ -71,7 +71,7 @@ def main():
     args = get_arguments()
     config = get_config(args.config)
 
-    result_path = './test_result_inference/'
+    result_path = './test_inference/'
 
     # cpu or gpu
     if args.cpu:
