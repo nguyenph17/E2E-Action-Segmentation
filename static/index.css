@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(42, 189, 113);
+    margin-top: 20px;
+}
+
+.header {
+    font-family: 'Lucida Sans';
+    text-align: center;
+    background: #7c1088;
+    color: white;
+    font-size: 1rem;
+    padding: 2rem;
+}
+
+.conten-row {
+    position: relative;
+}
+
+.content-collumn {
+    position: absolute;
+    right: 10rem;
+    top: 7.5rem;
+
+}
+
+.form {
+    padding: 1rem;
+    padding-left: 6rem;
+}
+
+h2 {
+    padding: 1rem 0 0 10rem;
+    background-color: rgb(215, 242, 250);
+    padding-bottom: 20px;
+}
