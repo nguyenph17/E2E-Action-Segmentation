@@ -319,7 +319,7 @@ class PlotSegments():
         self.get_video_size(video_path)
         self.set_window_size()
         self.plot_legend()
-        self.get_metrics()
+        #self.get_metrics()
         self.play_video()
 
 

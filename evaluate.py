@@ -26,7 +26,7 @@ def get_arguments():
     parser.add_argument(
         "--model",
         type=str,
-        default=None,
+        default='model_ouputs/new_result_agument',
         help="""
             path to the trained model.
             If you do not specify, the trained model,
@@ -52,7 +52,7 @@ def main():
     # configuration
     config = get_config(args.config)
 
-    result_path = './new_result_agument'
+    result_path = "model_ouputs/new_result_agument" #os.path.dirname(args.config)
 
     # cpu or gpu
     if args.cpu:
@@ -108,8 +108,9 @@ def main():
     # train and validate model
     print("---------- Start testing ----------")
     for file in os.listdir(result_path):
+        #print(result_path)
         if file.split('.')[-1] == 'prm':
-            state_dict = torch.load(os.path.join(result_path, file))
+            state_dict = torch.load(os.path.join(result_path, file), map_location=torch.device('cpu'))
             model.load_state_dict(state_dict)
             print('------------------Test {}------------------'.format(file))
             

@@ -82,10 +82,17 @@ def plot_val_scores(result_path):
 
 
 
-video_path = 'E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-03-2.avi'
-result_reduce_fps_aug = 'model_output/result_reduce_fps_aug'
-new_result_agument = 'model_output/new_result_agument'
-#plot_val_scores(result_path)
-#visualize(result_path, video_path)
-test_videos(new_result_agument)
-test_videos(result_reduce_fps_aug)
+video_path = 'model_ouputs/own_test_video/test_video_make_salad.avi'
+swap_segments = 'model_ouputs/own_test_video'
+new_result_agument = 'model_ouputs/own_test_video'
+
+
+# video_path = 'model_ouputs/swap_segments/rgb-14-1.avi'
+# swap_segments = 'model_ouputs/swap_segments'
+# new_result_agument = 'model_ouputs/swap_segments'
+
+
+#plot_val_scores(new_result_agument)
+visualize(swap_segments, video_path)
+#test_videos(new_result_agument)
+# test_videos(result_reduce_fps_aug)

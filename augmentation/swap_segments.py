@@ -102,9 +102,9 @@ class SwapSegment:
         new_starts.insert(0, starting_start)
         new_ends.insert(0, starting_end)
 
-        new_segments.insert(-1, ending_segment)
-        new_starts.insert(-1, ending_start)
-        new_ends.insert(-1, ending_end)
+        new_segments.append(ending_segment)
+        new_starts.append(ending_start)
+        new_ends.append(ending_end)
 
         assert len(new_segments) == len(new_starts) == len(new_ends), "The length of Segments, Starts and Ends are not equal!"
 
