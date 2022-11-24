@@ -101,7 +101,7 @@ def main():
 
     # configuration
     config = get_config(args.config)
-    result_path = './new_result_agument'
+    result_path = 'model_ouputs/new_result_agument'
 
     # cpu or gpu
     if args.cpu:
@@ -147,7 +147,8 @@ def main():
     model.to(device)
 
     # load the state dict of the model
-    state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"))
+    state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"), 
+                                map_location=torch.device('cpu'))
     model.load_state_dict(state_dict_cls)
 
     # save outputs

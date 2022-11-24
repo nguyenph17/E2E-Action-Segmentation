@@ -3,11 +3,12 @@ import cv2
 import numpy as np
 import os
 import time
+import random
 import glob
 
 class VAugmentation():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, des_dir) -> None:
+        self.des_dir = des_dir
 
     def get_video_size(self, video_path):
         # Create a VideoCapture object and read from input file
@@ -54,7 +55,7 @@ class VAugmentation():
         # Define the codec and create VideoWriter object
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         new_file_name = split_tup[0] + '_augmented' + split_tup[1]
-        new_file_path = os.path.join(self.video_dir, new_file_name)
+        new_file_path = os.path.join(self.des_dir, new_file_name)
         out = cv2.VideoWriter(new_file_path,fourcc, 30.0, (self.VIDEO_WIDTH,self.VIDEO_HEIGHT))
 
         print('Start generating video ', new_file_name)
@@ -83,8 +84,6 @@ class VAugmentation():
                 flipped_video.append(image)
 
                 title = 'Press Q to Exit!                        Video: ' + str(self.video_name) 
-
-                
                 nextFrameNo = self.cap.get(cv2.CAP_PROP_POS_FRAMES)
                 #get total number of frames in the video
                 
@@ -127,20 +126,26 @@ class VAugmentation():
         self.get_video_size(video_path)
         self.set_window_size()
         #horizontal flip and make video darker
-        self.flip_video(flipMode=1, multiply_value=0.7, play_video=False) 
-
-
+        bright_ness = random.choice([0.6, 0.7, 1.0])
+        self.flip_video(flipMode=1, multiply_value=bright_ness, play_video=False) 
 
 
 
 if __name__ == '__main__':
-    video_path = 'E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-01-2.avi'
-    vaug = VAugmentation()
+    video_file = 'augmentation/videos_to_flip.txt'
+    destination_dir = 'augmentation/flipped_videos'
+    with open(video_file) as file:
+        video_paths = [line.rstrip() for line in file]
 
-    for video_path in glob.glob('E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/*.avi'):
+    
+    #exist_video_paths = glob.glob('E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/*.avi')
+
+    for video_path in video_paths:
+        vaug = VAugmentation(destination_dir)
         #print(name)
         start_time = time.time()
         vaug.augment_video(video_path)
+        vaug = None
         print("--- Duration %s seconds ---" % (time.time() - start_time))
     
  

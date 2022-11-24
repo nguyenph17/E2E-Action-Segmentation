@@ -1,5 +1,5 @@
 batch_size: 1
-boundary_th: 0.5
+boundary_th: 0.4
 ce: true
 ce_weight: 1.0
 class_weight: true

@@ -13,3 +13,7 @@ feature_extraction/outputs
 *.avi
 *.mp4
 *.prm
+
+#ignore dataset
+dataset/
+libs/
