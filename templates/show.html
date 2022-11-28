@@ -22,17 +22,8 @@
 
     <div class="content-row">
         <div class="left-container">
-            <h2>Video file/Extracted file</h2>
-            <div class="form">
-                <form method="post" enctype=multipart/form-data>
-                    <h3>Upload file:</h3>
-                    <input class="form-control form-control-lg" name="npy_file" type="file" id="npy_file"
-                        accept=".npy, .avi" style="width: 30rem; padding: 2%; height: 40%">
-                    <p>(Click to select a file, or drag it here)</p>
-                    <button class="btn btn-outline-primary btn-block" type="submit" style="width: 80%; padding: 3%;"
-                        onclick="progress()">Get Prediction</button>
-                </form>
-            </div>
+            <h2>Prediction Segmented Video</h2>
+            <img src="{{ url_for('video_feed') }}" height="95%" width="110%">
         </div>
 
 
@@ -76,3 +67,5 @@
         }
     </script>
 </body>
+
+
