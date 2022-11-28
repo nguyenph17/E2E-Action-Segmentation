@@ -9,7 +9,7 @@ import torch
 from libs import models
 from libs.config import get_config
 from libs.postprocess import PostProcessor
-
+from debug_model import visualize_pred
 
 def get_arguments() -> argparse.Namespace:
     """
@@ -63,15 +63,20 @@ def inference_video(args, model, device, boundary_th, result_path, npy_file=None
         refined_pred = postprocessor(
             output_cls, boundaries=output_bound, masks=mask)
         pred = output_cls.argmax(axis=1)
+        pred_path = result_path + npy_file[-12:-4] + '_refined_pred.npy'
+        # np.save(result_path + npy_file[-12:-4] + '_pred.npy', pred[0])
+        np.save(pred_path, refined_pred[0])
+        return pred_path
 
-        np.save(result_path + 'pred.npy', pred[0])
-        np.save(result_path + '_refined_pred.npy', refined_pred[0])
-
-def main(npy_file):
+def predict_file(npy_file, result_path):
     args = get_arguments()
     config = get_config(args.config)
 
-    result_path = './test_inference/'
+    # result_path = './test_inference/'
+    # video_path = 'test_inference/rgb-01-1.avi'
+    # pred_path = result_path + '_refined_pred.npy'
+    # gt_path = result_path + '_refined_pred.npy'
+
     # npy_file = 'test_inference/rgb-01-1.npy'
     # cpu or gpu
     if args.cpu:
@@ -96,9 +101,12 @@ def main(npy_file):
     state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"))
     model.load_state_dict(state_dict_cls)
     start_time = time.time()
-    inference_video(args, model, device, config.boundary_th, result_path, npy_file=npy_file)
+    pred_path = inference_video(args, model, device, config.boundary_th, result_path, npy_file=npy_file)
+    # visualize_pred(gt_path, pred_path, video_path)
     print("Done in {0}.".format(time.time() - start_time))
+    return pred_path
 
 if __name__ == '__main__':
-    main()
+    npy_file = 'test_inference/rgb-01-1.npy'
+    predict_file(npy_file)
 
