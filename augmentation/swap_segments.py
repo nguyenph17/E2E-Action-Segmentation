@@ -7,16 +7,15 @@ import glob
 import time
 
 class SwapSegment:
-    def __init__(self, video_dir, groundtruth_dir, new_video_dir, new_groundtruth_dir) -> None:
-        self.video_dir = video_dir
+    def __init__(self, groundtruth_dir, new_video_dir, new_groundtruth_dir) -> None:
         self.groundtruth_dir = groundtruth_dir
         self.new_video_dir = new_video_dir
         self.new_groundtruth_dir = new_groundtruth_dir
 
 
-    def get_video_info(self, video_name):
-        self.video_name =  video_name
-        video_path = os.path.join(self.video_dir, self.video_name)
+    def get_video_info(self, video_path):
+        #self.video_name =  video_name
+        #video_path = os.path.join(self.video_dir, self.video_name)
         self.cap = cv2.VideoCapture(video_path)
 
         self.VIDEO_WIDTH  = math.ceil(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))   # float `width`
@@ -49,7 +48,7 @@ class SwapSegment:
     def load_labels(self, label_file):
         file_ext = label_file.split('.')[-1]
         if file_ext == 'npy':
-            labels = np.load(label_file)
+            #labels = np.load(label_file)
             np_arr = np.load(label_file)
             inv_mapping = {int(v): k for k, v in self.mapping.items()}
             self.labels = list(map(inv_mapping.get, np_arr))
@@ -151,36 +150,52 @@ class SwapSegment:
         out.release()
         return video_path
 
+    def process(self, video_name):
+        self.get_video_info(video_name)
+        self.get_frames()
 
-    def process(self):
-        for video_path in glob.glob(os.path.join(self.video_dir,'*.avi')):
-            _, video_name = os.path.split(video_path)
+        split_tup = os.path.splitext(self.video_name)
+        label_file = split_tup[0] + '.txt'
+        self.load_labels(label_file)
+        segments, starts, ends = self.get_segments(self.labels)
 
-            print('Start generating video ', video_name)
-            start_time = time.time()
-            self.get_video_info(video_name)
-            self.get_frames()
+        segments, starts, ends = self.swap_labels(segments, starts, ends)
 
-            split_tup = os.path.splitext(self.video_name)
-            label_file = split_tup[0] + '.txt'
-            self.load_labels(label_file)
-            segments, starts, ends = self.get_segments(self.labels)
+        self.swap_video(starts, ends)
 
-            segments, starts, ends = self.swap_labels(segments, starts, ends)
+        self.save_groundtruth()
+        self.save_video()
 
-            self.swap_video(starts, ends)
 
-            self.save_groundtruth()
-            self.save_video()
+    def swap2segments(self, video_name):
+        self.get_video_info(video_name)
+        #self.get_frames()
+        video_dir, video_name =  os.path.split(video_path)
 
-            print("--- Duration %s seconds ---" % (time.time() - start_time))
+        split_tup = os.path.splitext(video_name)
+        label_file = split_tup[0] + '.txt'
+        self.load_labels(label_file)
+        segments, starts, ends = self.get_segments(self.labels)
+
+        print(segments)
 
 
 if __name__ == '__main__':
-    swapper = SwapSegment(video_dir='visualization/videos', groundtruth_dir='visualization/groundtruth', 
-                        new_video_dir='visualization/videos_swap_segments', 
-                        new_groundtruth_dir='visualization/groundtruth_swap_segments')
+    video_file = 'augmentation/videos_to_swap.txt'
+    destination_dir = 'augmentation/swapped_videos'
+    with open(video_file) as file:
+        video_paths = [line.rstrip() for line in file]
 
+    for video_path in video_paths:
+        _, video_name = os.path.split(video_path)
+        swapper = SwapSegment(groundtruth_dir='E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/groundTruth', 
+                        new_video_dir='augmentation/swapped_videos', 
+                        new_groundtruth_dir='augmentation/swapped_groundtruth')
+        #print(name)
+        start_time = time.time()
+        swapper.swap2segments(video_path)
+        swapper = None
+        print("--- Duration %s seconds ---" % (time.time() - start_time))
     swapper.process()
 
 

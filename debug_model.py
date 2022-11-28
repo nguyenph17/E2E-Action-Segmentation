@@ -82,17 +82,30 @@ def plot_val_scores(result_path):
 
 
 
-video_path = 'model_ouputs/own_test_video/test_video_make_salad.avi'
-swap_segments = 'model_ouputs/own_test_video'
-new_result_agument = 'model_ouputs/own_test_video'
+# video_path = 'model_ouputs/own_test_video/test_video_make_salad.avi'
+# swap_segments = 'model_ouputs/own_test_video'
+# new_result_agument = 'model_ouputs/own_test_video'
 
 
-# video_path = 'model_ouputs/swap_segments/rgb-14-1.avi'
-# swap_segments = 'model_ouputs/swap_segments'
-# new_result_agument = 'model_ouputs/swap_segments'
+video_path = 'model_ouputs/swap_segments/rgb-14-1.avi'
+swap_segments = 'model_ouputs/swap_segments'
+new_result_agument = 'model_ouputs/swap_segments'
 
 
 #plot_val_scores(new_result_agument)
-visualize(swap_segments, video_path)
+#visualize(swap_segments, video_path)
 #test_videos(new_result_agument)
 # test_videos(result_reduce_fps_aug)
+
+video_path = "E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-07-1.avi"
+gt_path = "feature_extraction/outputs/features_30fps/gt_arr/rgb-07-1.npy"
+pred_path = gt_path
+
+plot_segments = PlotSegments('./visualization/mapping.txt')
+
+plot_segments.visualize(video_path ,gt_path, pred_path)
+
+
+# result_path = 'model_ouputs/new_result_agument'
+# video_path = "E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-05-2.avi"
+# visualize(result_path, video_path)
