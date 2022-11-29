@@ -1,7 +1,6 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(42, 189, 113);
-    margin-top: 20px;
+    background-color: rgb(239, 239, 239);
 }
 
 .header {
@@ -11,26 +10,46 @@ body {
     color: white;
     font-size: 1rem;
     padding: 2rem;
+
 }
 
-.conten-row {
-    position: relative;
+.content-row {
+    width: 100%;
+    /* margin: auto; */
+    display: flex;
+    /* justify-content: space-evenly; */
+
 }
 
-.content-collumn {
-    position: absolute;
-    right: 7rem;
-    top: 7.5rem;
+.left-container {
+    width: 80%;
 
+}
+
+.right-container {
+    /* padding: auto; */
+    width: 100%;
+    text-align: center;
+    
 }
 
 .form {
-    padding: 1rem;
-    padding-left: 6rem;
+    padding: 2rem 0 1rem 6rem;
 }
 
 h2 {
-    padding: 1rem 0 0 10rem;
+    padding: 1rem 2rem 1rem 5rem;
     background-color: rgb(215, 242, 250);
-    padding-bottom: 20px;
+    text-align: auto;
+}
+
+h3 {
+    color: red;
+}
+
+ul {
+    text-align: left;
+    width: 60%;
+    font-size: large;
+    margin: auto;
 }
