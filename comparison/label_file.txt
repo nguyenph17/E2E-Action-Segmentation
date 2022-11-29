@@ -1,0 +1,9 @@
+feature_extraction/outputs/features_30fps/gt_arr/rgb-01-1.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-01-2.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-02-1.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-02-2.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-03-1.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-03-2.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-04-2.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-05-1.npy
+feature_extraction/outputs/features_30fps/gt_arr/rgb-05-2.npy
