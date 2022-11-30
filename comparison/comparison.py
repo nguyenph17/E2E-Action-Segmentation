@@ -1,14 +1,18 @@
+
+import os
+import sys
 import numpy as np
-import sys, os
-#sys.path.append(os.path.abspath(os.path.join('..', 'visualization')))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# Now do your import
+#sys.path.append(os.path.abspath(os.path.join('..', 'visualization')))
 from visualization import PlotSegments
+
+# Now do your import
 
 
 def load_label(numpy_filepath):
     labels = np.load(numpy_filepath)
     return labels
+
 
 def get_labels_start_end_time(frame_wise_labels, bg_class=["background"]):
     labels = []
@@ -49,13 +53,11 @@ def levenstein(p, y, p_starts, p_ends, y_starts, y_ends, norm=False):
     for i in range(n_col+1):
         D[0, i] = i
 
-
-
     for j in range(1, n_col+1):
         for i in range(1, m_row+1):
             if y[j-1] == p[i-1]:
                 #error = compute_error(p_starts[i-1], p_ends[i-1], y_starts[j-1], y_ends[j-1])
-                D[i, j] = D[i-1, j-1] #+ error
+                D[i, j] = D[i-1, j-1]  # + error
             else:
                 error = 1
                 D[i, j] = min(D[i-1, j] + error,
@@ -70,33 +72,41 @@ def levenstein(p, y, p_starts, p_ends, y_starts, y_ends, norm=False):
     return score
 
 
+def process(pred_npy_path, ds_files, video_path):
+    with open(ds_files) as file:
+        groundtruth_paths = [line.rstrip() for line in file]
+
+    label_1 = load_label(pred_npy_path)
+    segments_1, starts_1, ends_1 = get_labels_start_end_time(label_1)
+
+    scores = {}
+    for file in groundtruth_paths:
+        
+        groundtruth_name = os.path.split(file)[-1]
+        pred_filename = os.path.split(pred_npy_path)[-1]
+
+        if groundtruth_name == pred_filename:
+            continue
+
+        label_2 = load_label(file)
+        segments_2, starts_2, ends_2 = get_labels_start_end_time(label_2)
+        score = levenstein(segments_1, segments_2, starts_1,
+                           ends_1, starts_2, ends_2)
+        score = 1 - (score / max(len(segments_1), len(segments_2)))
+        print(score)
+        scores[file] = score
+
+    scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+    scores = list(scores.items())[:5]
+    return scores   
 
 
 
 if __name__ == '__main__':
-    gt_arr_1 = 'feature_extraction/outputs/features_30fps/gt_arr/rgb-03-2.npy'
+    pred_npy_path = 'feature_extraction/outputs/features_30fps/gt_arr/rgb-03-2.npy'
     video_path = 'E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-03-2.avi'
 
-
     dataset_file = 'comparison/label_file.txt'
-    with open(dataset_file) as file:
-        groundtruth_paths = [line.rstrip() for line in file]
 
-    label_1 = load_label(gt_arr_1)
-    segments_1, starts_1, ends_1 = get_labels_start_end_time(label_1)
+    process(pred_npy_path, dataset_file, video_path=video_path)
 
-    best_score = 0.0
-    similar_label = ''
-    for file in groundtruth_paths:
-        label_2 = load_label(file)
-        segments_2, starts_2, ends_2 = get_labels_start_end_time(label_2)
-        score = levenstein(segments_1, segments_2, starts_1, ends_1, starts_2, ends_2) 
-        score = 1 - (score / max(len(segments_1), len(segments_2)))
-        print(score)
-        if best_score < score:
-            best_score = score
-            similar_label = file
-
-    print(f"The most similar file is: {similar_label} \n The score is: {best_score}")
-    plot_segments = PlotSegments('./visualization/mapping.txt')
-    plot_segments.visualize(video_path ,gt_arr_1, gt_arr_1)
