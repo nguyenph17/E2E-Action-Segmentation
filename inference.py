@@ -9,7 +9,7 @@ import torch
 from libs import models
 from libs.config import get_config
 from libs.postprocess import PostProcessor
-from debug_model import visualize_pred
+# from debug_model import visualize_pred
 
 def get_arguments() -> argparse.Namespace:
     """
@@ -64,7 +64,7 @@ def inference_video(args, model, device, boundary_th, result_path, npy_file=None
         refined_pred = postprocessor(
             output_cls, boundaries=output_bound, masks=mask)
         pred = output_cls.argmax(axis=1)
-        pred_path = result_path + npy_file[-12:-4] + '_refined_pred.npy'
+        pred_path = result_path + npy_file[-12:-4] + '_pred.npy'
         
         # np.save(result_path + npy_file[-12:-4] + '_pred.npy', pred[0])
         np.save(pred_path, refined_pred[0])
@@ -102,7 +102,7 @@ def predict_file(npy_file, result_path):
     )
     
     model.to(device)
-    state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"))
+    state_dict_cls = torch.load(os.path.join(result_path, "weights/model_70.prm"))
     model.load_state_dict(state_dict_cls)
 
     start_time = time.time()

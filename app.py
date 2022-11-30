@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage    
 from inference import get_arguments, inference_video, predict_file
 from visualization.plot_segments import PlotSegments
+from comparison.comparison import process
 
 app = Flask(__name__)
 app.secret_key = 'HienVX'
@@ -53,7 +54,7 @@ class Plot_result(PlotSegments):
                     pass
     
     
-
+dataset_file = 'comparison/gt_file.txt'
 plot_segments = Plot_result('./visualization/mapping.txt')
 # video_path = 'test_inference/rgb-01-1.avi'
 # gt_path = 'F:/ActionSegment/new_result_agument/predictions/rgb-01-1_gt.npy'
@@ -88,8 +89,13 @@ def test():
             file_name = file_npy.filename.rsplit('.')[0]
             file_npy.save(f'samples/{file_name}.npy')
             pred_path = predict_file(f'samples/{file_name}.npy', 'samples/')
-            gt_path = f'samples/{file_name}_gt.npy'
-            video_path = f'samples/{file_name}.avi'
+            gt_path = f'samples/gt/{file_name}_gt.npy'
+
+            scores, top_name = process(pred_path, dataset_file)
+            print(top_name)
+            video_path = f'samples/videos/{top_name}.avi'
+            # video_path = f'samples/videos/{file_name}.avi'
+            
             return redirect(url_for('show'))
 
 

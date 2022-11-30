@@ -72,7 +72,7 @@ def levenstein(p, y, p_starts, p_ends, y_starts, y_ends, norm=False):
     return score
 
 
-def process(pred_npy_path, ds_files, video_path):
+def process(pred_npy_path, ds_files):
     with open(ds_files) as file:
         groundtruth_paths = [line.rstrip() for line in file]
 
@@ -82,10 +82,10 @@ def process(pred_npy_path, ds_files, video_path):
     scores = {}
     for file in groundtruth_paths:
         
-        groundtruth_name = os.path.split(file)[-1]
+        groundtruth_name = os.path.split(file)[-1][:8]
         pred_filename = os.path.split(pred_npy_path)[-1]
 
-        if groundtruth_name == pred_filename:
+        if groundtruth_name == pred_filename[:8]:
             continue
 
         label_2 = load_label(file)
@@ -98,15 +98,16 @@ def process(pred_npy_path, ds_files, video_path):
 
     scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
     scores = list(scores.items())[:5]
-    return scores   
+    top_name = scores[0][0][-15:-7]
+    return scores, top_name   
 
 
 
 if __name__ == '__main__':
-    pred_npy_path = 'feature_extraction/outputs/features_30fps/gt_arr/rgb-03-2.npy'
-    video_path = 'E:/AICamp/Human-Action-Reconigtion-Comparison/rgb/rgb/rgb-03-2.avi'
+    pred_npy_path = 'samples/rgb-01-1_pred.npy'
+    video_path = 'samples/videos/rgb-01-1.avi'
 
-    dataset_file = 'comparison/label_file.txt'
+    dataset_file = 'comparison/gt_file.txt'
 
-    process(pred_npy_path, dataset_file, video_path=video_path)
+    print(process(pred_npy_path, dataset_file))
 
