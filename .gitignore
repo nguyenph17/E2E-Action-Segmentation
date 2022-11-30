@@ -16,6 +16,5 @@ feature_extraction/outputs
 
 #ignore dataset
 dataset/
-libs/
 
 .vscode/
