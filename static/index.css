@@ -1,12 +1,12 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(245, 245, 245);
 }
 
 .header {
     font-family: 'Lucida Sans';
     text-align: center;
-    background: #7c1088;
+    background: rgb(80, 184, 72);
     color: white;
     font-size: 1rem;
     padding: 2rem;
@@ -39,12 +39,13 @@ body {
 
 h2 {
     padding: 1rem 2rem 1rem 5rem;
-    background-color: rgb(215, 242, 250);
+    background-color: rgb(51, 178, 193);
     text-align: auto;
+    font-weight: 600;
 }
 
 h3 {
-    color: red;
+    color: rgb(243, 113, 33);
 }
 
 ul {
@@ -52,4 +53,8 @@ ul {
     width: 60%;
     font-size: large;
     margin: auto;
+}
+
+img {
+    padding-left: 7%;
 }

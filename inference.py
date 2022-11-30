@@ -54,6 +54,7 @@ def inference_video(args, model, device, boundary_th, result_path, npy_file=None
     model.eval()
 
     with torch.inference_mode():
+
         feature = feature.to(device)
         output_cls, output_bound = model(feature)
 
@@ -64,8 +65,10 @@ def inference_video(args, model, device, boundary_th, result_path, npy_file=None
             output_cls, boundaries=output_bound, masks=mask)
         pred = output_cls.argmax(axis=1)
         pred_path = result_path + npy_file[-12:-4] + '_refined_pred.npy'
+        
         # np.save(result_path + npy_file[-12:-4] + '_pred.npy', pred[0])
         np.save(pred_path, refined_pred[0])
+
         return pred_path
 
 def predict_file(npy_file, result_path):
@@ -97,16 +100,20 @@ def predict_file(npy_file, result_path):
         n_stages_asb=config.n_stages_asb,
         n_stages_brb=config.n_stages_brb,
     )
+    
     model.to(device)
     state_dict_cls = torch.load(os.path.join(result_path, "model_70.prm"))
     model.load_state_dict(state_dict_cls)
+
     start_time = time.time()
     pred_path = inference_video(args, model, device, config.boundary_th, result_path, npy_file=npy_file)
     # visualize_pred(gt_path, pred_path, video_path)
     print("Done in {0}.".format(time.time() - start_time))
+
     return pred_path
 
 if __name__ == '__main__':
-    npy_file = 'test_inference/rgb-01-1.npy'
-    predict_file(npy_file)
+    npy_file = 'samples/rgb-01-1.npy'
+    result_path = 'samples'
+    predict_file(npy_file, result_path)
 
