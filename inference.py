@@ -75,12 +75,6 @@ def predict_file(npy_file, result_path):
     args = get_arguments()
     config = get_config(args.config)
 
-    # result_path = './test_inference/'
-    # video_path = 'test_inference/rgb-01-1.avi'
-    # pred_path = result_path + '_refined_pred.npy'
-    # gt_path = result_path + '_refined_pred.npy'
-
-    # npy_file = 'test_inference/rgb-01-1.npy'
     # cpu or gpu
     if args.cpu:
         device = "cpu"
@@ -88,6 +82,8 @@ def predict_file(npy_file, result_path):
         device = "cuda" if torch.cuda.is_available() else "cpu"
         if device == "cuda":
             torch.backends.cudnn.benchmark = True
+            
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
     n_classes = 19
     

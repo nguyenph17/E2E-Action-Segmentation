@@ -13,22 +13,18 @@ app.secret_key = 'HienVX'
 
 class Plot_result(PlotSegments):
 
+    def set_window_size(self):
+        self.WINDOW_HEIGH = self.VIDEO_HEIGHT + 70
+        self.WINDOW_WIDTH = self.VIDEO_WIDTH + 400
+        self.window = np.zeros((self.WINDOW_HEIGH, self.WINDOW_WIDTH,3), np.uint8)
+
     def plot_single_segment_bar(self):
-        # gt_img_bar, _, _ = self.create_segment_bar(self.gt_file)
         pred_img_bar, _, _ = self.create_segment_bar(self.pred_file)
 
-        #ground truth segment bar is bellow video
         self.window[self.VIDEO_HEIGHT : self.VIDEO_HEIGHT + pred_img_bar.shape[0], :pred_img_bar.shape[1]] = pred_img_bar[:, :]
 
         cv2.putText(self.window, 'Prediction', (self.VIDEO_WIDTH + 10, self.VIDEO_HEIGHT + 30), fontFace=cv2.FONT_HERSHEY_SIMPLEX, 
                    fontScale=0.5, color=(255, 255, 255), thickness=1, lineType=cv2.LINE_AA)
-
-
-        #prediction segment bar is bellow the ground truth segment bar
-        # self.window[self.VIDEO_HEIGHT + gt_img_bar.shape[0] + 10 : self.VIDEO_HEIGHT + pred_img_bar.shape[0] + 10 + pred_img_bar.shape[0], 0:pred_img_bar.shape[1]] = pred_img_bar[:, :]
-
-        # cv2.putText(self.window, 'Prediction', (self.VIDEO_WIDTH + 10, self.VIDEO_HEIGHT + gt_img_bar.shape[0] + 10 + 30), fontFace=cv2.FONT_HERSHEY_SIMPLEX, 
-        #            fontScale=0.5, color=(255, 255, 255), thickness=1, lineType=cv2.LINE_AA)
 
         return self.window
 
@@ -37,7 +33,6 @@ class Plot_result(PlotSegments):
         self.pred_file = pred_path
         self.video_dir, self.video_name = os.path.split(video_path)
         self.get_video_size(video_path)
-        # self.cap2 = cv2.VideoCapture()
         self.set_window_size()
         self.plot_legend()
         # self.get_metrics()
