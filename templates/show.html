@@ -22,8 +22,8 @@
 
     <div class="content-row">
         <div class="left-container">
-            <h2>Prediction Segmented Video</h2>
-            <img src="{{ url_for('video_feed') }}" height="95%" width="120%">
+            <h2>Result</h2>
+            <img src="{{ url_for('video_feed') }}" height="110%" width="120%">
         </div>
 
 
@@ -39,6 +39,10 @@
                 <li>About 6 min each video</li>
                 <li>30 FPS</li>
             </ul>
+            <form action="{{ url_for('show') }}" class="compare" method="post" enctype=multipart/form-data>
+                <button class="mx-auto btn btn-outline-primary btn-block" type="submit" style="width: 50%; padding: 4%;"
+                onclick="progress()">Find Action Similarity Video</button>
+            </form>
         </div>
     </div>
     <footer class="bg-light text-center text-lg-start" style="position: fixed;bottom: 0;width: 100%;">
