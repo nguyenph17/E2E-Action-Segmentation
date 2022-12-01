@@ -37,6 +37,7 @@ class Plot_result(PlotSegments):
         self.pred_file = pred_path
         self.video_dir, self.video_name = os.path.split(video_path)
         self.get_video_size(video_path)
+        # self.cap2 = cv2.VideoCapture()
         self.set_window_size()
         self.plot_legend()
         # self.get_metrics()
@@ -56,6 +57,7 @@ class Plot_result(PlotSegments):
     
 dataset_file = 'comparison/gt_file.txt'
 plot_segments = Plot_result('./visualization/mapping.txt')
+plot_segments_comparison = Plot_result('./visualization/mapping.txt')
 # video_path = 'test_inference/rgb-01-1.avi'
 # gt_path = 'F:/ActionSegment/new_result_agument/predictions/rgb-01-1_gt.npy'
 # pred_path = 'F:/ActionSegment/new_result_agument/predictions/rgb-01-1_refined_pred.npy'
@@ -66,9 +68,17 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/show')
+@app.route('/show', methods=['GET', 'POST'])
 def show():
+    if request.method == 'POST':
+        return redirect(url_for('comparison'))
     return render_template('show.html')
+
+
+@app.route('/comparison')
+def comparison():
+    cv2.waitKey(0)
+    return render_template('comparison.html', video_name=top_name, score=scores[0][1])
 
 
 @app.route('/video_feed')
@@ -76,9 +86,14 @@ def video_feed():
     return Response(plot_segments.play_stream_video(video_path, gt_path, pred_path), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/comparison_video')
+def comparison_video():
+    return Response(plot_segments_comparison.play_stream_video(video_compare_path, gt_path, pred__compare_path), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
 @app.route("/", methods=['GET', 'POST'])
 def test():
-    global gt_path, pred_path, video_path
+    global gt_path, pred_path, video_path, video_compare_path, pred__compare_path, top_name, scores
     if request.method == 'POST':
         if not request.files['npy_file']:
             flash('Please attach file for training', 'warning')
@@ -93,10 +108,10 @@ def test():
 
             scores, top_name = process(pred_path, dataset_file)
             print(top_name)
-            video_path = f'samples/videos/{top_name}.avi'
-            # video_path = f'samples/videos/{file_name}.avi'
-            
-            return redirect(url_for('show'))
+            video_compare_path = f'samples/videos/{top_name}.avi'
+            video_path = f'samples/videos/{file_name}.avi'
+            pred__compare_path = f'samples/gt/{top_name}_gt.npy'
+            return redirect(url_for('comparison'))
 
 
 if __name__ == '__main__':

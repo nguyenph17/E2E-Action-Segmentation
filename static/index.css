@@ -22,8 +22,8 @@ body {
 }
 
 .left-container {
-    width: 80%;
-
+    width: 90%;
+    text-align: center;
 }
 
 .right-container {
@@ -38,7 +38,7 @@ body {
 }
 
 h2 {
-    padding: 1rem 2rem 1rem 5rem;
+    padding: auto;
     background-color: rgb(51, 178, 193);
     text-align: auto;
     font-weight: 600;
@@ -57,4 +57,9 @@ ul {
 
 img {
     padding-left: 7%;
+}
+
+.compare {
+    width: 80%;
+    right: 10%;
 }

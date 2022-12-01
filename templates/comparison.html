@@ -22,14 +22,14 @@
 
     <div class="content-row">
         <div class="left-container">
-            <h2>Prediction Segmented Video</h2>
-            <img src="{{ url_for('video_feed') }}" height="95%" width="120%">
+            <h2>Result Video</h2>
+            <img src="{{ url_for('video_feed') }}" height="105%" width="100%">
         </div>
 
 
         <div class="right-container">
-            <h2>Similarity Video Found</h2>
-            <img src="{{ url_for('video_feed') }}" height="95%" width="100%">
+            <h2>Similarity Video: {{video_name}}, Score: {{score}}</h2>
+            <img src="{{ url_for('comparison_video') }}" height="105%" width="100%">
     </div>
     <footer class="bg-light text-center text-lg-start" style="position: fixed;bottom: 0;width: 100%;">
         <div class="text-center p-2" style="background-color: rgb(228, 229, 230);">

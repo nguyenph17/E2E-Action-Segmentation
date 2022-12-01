@@ -94,7 +94,7 @@ def process(pred_npy_path, ds_files):
                            ends_1, starts_2, ends_2)
         score = 1 - (score / max(len(segments_1), len(segments_2)))
         print(score)
-        scores[file] = score
+        scores[file] = round(score, 2)
 
     scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
     scores = list(scores.items())[:5]
