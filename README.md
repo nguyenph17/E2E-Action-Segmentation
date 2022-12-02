@@ -1,5 +1,8 @@
 # Video Action Segmentation and Comparison
 
+## If you find it useful [Buy me a coffee ](https://baolocpham.github.io/ThapSangAnhSuoiAmEm/) :blush:
+
+
 ## Overview
 
 Comparing human activities is a core problem in areas such as sports sciences, rehabilitation and monitoring. Applications in these areas typically require the user to perform a set of pre-defined activities and evaluate the correctness/quality by comparing the performed activities with given exemplars. 
