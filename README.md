@@ -17,8 +17,8 @@ We use <a href="https://cvip.computing.dundee.ac.uk/datasets/foodpreparation/50s
 
 Create virtual environment with conda
 ```
-conda create -n nli python=3.8
-conda activate nli
+conda create -n action python=3.8
+conda activate action
 ```
 Install dependencies:
 ```
