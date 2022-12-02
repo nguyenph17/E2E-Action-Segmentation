@@ -108,10 +108,36 @@ Please run the following command. `[DATASET_DIR]` is the path to your dataset di
     ```bash
     python save_pred.py ./config/config.yaml
     ```
+1. You can also visualize prediction and ground truth of the input videos
+    
+    ```bash
+    python visualize.py --video_path <video path> --gt_file <ground truth path> --prediction_file <predicted npy path>
+    ```
 
+1. You can comparison the predicted video to your video database by accessing the path to list of video placed.
+
+    ```bash
+    python comparison/comparison.py --output_path <output> --database_path comparison/gt_file.txt
+    ```
+ ## Sample Visualization
+
+<img src='static/Capture.PNG'>
+
+## API
+Run app Flask
+```
+python app.py
+```
+Because feature extraction step takes more time than our expectation, so the input file of our API is the extractive video npy file. Sorry for our inconvenience :sob:
 ## Docker
 
-Updating
+Build an Run
+
+```
+    docker build -t action:v1 .
+    docker run -it -p 5000:5000 action:v1
+```
+
 ## Citation
 
 @inproceedings{chinayi_ASformer,  

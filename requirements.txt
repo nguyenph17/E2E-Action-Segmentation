@@ -12,5 +12,5 @@ requests==2.28.1
 flask-sqlalchemy==2.5.1
 natsort
 pathlib
-yaml
+pyyaml
 tqdm==4.34.0

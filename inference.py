@@ -98,7 +98,7 @@ def predict_file(npy_file, result_path):
     )
     
     model.to(device)
-    state_dict_cls = torch.load(os.path.join(result_path, "weights/model_70.prm"))
+    state_dict_cls = torch.load(os.path.join(result_path, "weights/model_70.prm"), map_location=torch.device('cpu'))
     model.load_state_dict(state_dict_cls)
 
     start_time = time.time()

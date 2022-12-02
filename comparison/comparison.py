@@ -2,12 +2,12 @@
 import os
 import sys
 import numpy as np
+import argparse
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #sys.path.append(os.path.abspath(os.path.join('..', 'visualization')))
 from visualization import PlotSegments
 
 # Now do your import
-
 
 def load_label(numpy_filepath):
     labels = np.load(numpy_filepath)
@@ -104,10 +104,15 @@ def process(pred_npy_path, ds_files):
 
 
 if __name__ == '__main__':
-    pred_npy_path = 'samples/rgb-01-1_pred.npy'
-    video_path = 'samples/videos/rgb-01-1.avi'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output_path', type=str, help="path to output file after prediction and refinement")
+    parser.add_argument('--database_path', type=str, help="path to file list all path of avalable video to comparison")
+    args = parser.parse_args()
+    
+    # pred_npy_path = 'samples/rgb-01-1_pred.npy'
+    # video_path = 'samples/videos/rgb-01-1.avi'
 
-    dataset_file = 'comparison/gt_file.txt'
+    # dataset_file = 'comparison/gt_file.txt'
 
-    print(process(pred_npy_path, dataset_file))
+    print(process(args.output_path, args.database_path))
 
